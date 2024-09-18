@@ -1,0 +1,16 @@
+f7d076620d572b6d289965f5bbe30a01 *DESCRIPTION
+0bafaa48ad1696fecf43993abe9f6c2b *LICENSE
+7fc41f497f387ac93343f1d31d35d40e *NAMESPACE
+a5789e9a603307b1dabbf94505089b5e *R/EdgeVertices.R
+0bb48ced19d8a412748ebe741daee9b7 *R/MapperAlgo.R
+9d8cf532f49c1c9370c1e4bbabd90f37 *README.md
+a6d7a02ecb9ad956014f1377ae1a99a0 *man/MapperAlgo.Rd
+16f76d6b73c0eda46e166d3665ef1d9d *man/cluster_cutoff_at_first_empty_bin.Rd
+f8ff70b34c94c8424563978091df9e21 *man/cover_points.Rd
+c1dbd140efd2cd2b0a3ca85efd5b38fa *man/lsfi_from_lsmi.Rd
+a025db5189894c5d6bce613cdecb3312 *man/lsmi_from_lsfi.Rd
+e546b57bae2d4ed80569d88def405a02 *man/mapperEdges.Rd
+30801428e46d9742b31bb1a6d5aea29e *man/mapperVertices.Rd
+d2ecceb089ad392c98830103cbb7066f *man/perform_clustering.Rd
+7230598a1d7fb70495ac0cd9707dff43 *tests/testthat.R
+225e3812b897786befc574f805c96dc2 *tests/testthat/test-MapperAlgo.R
