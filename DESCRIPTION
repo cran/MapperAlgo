@@ -1,7 +1,7 @@
 Package: MapperAlgo
 Title: Topological Data Analysis: Mapper Algorithm
-Version: 1.0.3
-Date: 2025-06-21
+Version: 1.0.4
+Date: 2025-08-23
 Authors@R: c(
   person("ChiChien", "Wang", email = "kennywang2003@gmail.com", role = c("aut", "cre", "trl")),
   person("Paul", "Pearson", email = "pearsonp@hope.edu", role = "ctb"),
@@ -11,7 +11,7 @@ Maintainer: ChiChien Wang <kennywang2003@gmail.com>
 Description: The Mapper algorithm from Topological Data Analysis, the steps are as follows 1. Define a filter (lens) function on the data. 2. Perform clustering within each level set. 3. Generate a complex from the clustering results.
 Depends: R (>= 3.1.2)
 Imports: parallel, doParallel, foreach, networkD3, igraph, ggraph,
-        tidygraph, ggplot2, htmlwidgets
+        tidygraph, ggplot2, htmlwidgets, rlang
 Suggests: fastcluster, cluster, dbscan, testthat (>= 3.0.0)
 License: MIT + file LICENSE
 URL: https://github.com/kennywang112/MapperAlgo/
@@ -20,10 +20,10 @@ Encoding: UTF-8
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-06-21 01:07:55 UTC; wangqiqian
+Packaged: 2025-08-22 16:56:25 UTC; USER
 Author: ChiChien Wang [aut, cre, trl],
   Paul Pearson [ctb],
   Daniel Muellner [ctb],
   Gurjeet Singh [ctb]
 Repository: CRAN
-Date/Publication: 2025-06-21 02:30:09 UTC
+Date/Publication: 2025-08-23 00:10:07 UTC
