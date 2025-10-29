@@ -5,7 +5,7 @@
 <!-- badges: end -->
 
 ## Playground & Document
-For a more detailed explanation for this package, this [document](https://www.notion.so/MapperAlgo-21875012ce1a80b088dfc4a9ab263b02?source=copy_link) will keep update for better understanding the source code. You can also try the [playground](https://tf3q5u-0-0.shinyapps.io/mapperalgo/) I build to get familier with the algorithm<br/>
+For a more detailed explanation for this package, this [document](https://bookdown.org/kennywang2003/vignettes/) will keep update for better understanding the source code. You can also try the [playground](https://tf3q5u-0-0.shinyapps.io/mapperalgo/) I build to get familier with the algorithm<br/>
 I've written some articles on Medium, which you can find [here](https://medium.com/@kennywang2003) to get familiar with topological data analysis. I'll be continuously updating my work, and I welcome any feedback!
 
 > This package is based on the `TDAmapper` package by Paul Pearson. You can view the original package [here](https://github.com/paultpearson/TDAmapper). Since the original package hasn't been updated in over seven years, this version is focused on optimization. By incorporating vector computation into the Mapper algorithm, this package aims to significantly improve its performance.
@@ -33,21 +33,34 @@ I've written some articles on Medium, which you can find [here](https://medium.c
 ### Example
 
 ``` r
+data("iris")
+data <- iris
+
 Mapper <- MapperAlgo(
-  filter_values = circle_data[,2:3],
-  intervals = 4,
-  percent_overlap = 30, 
+  filter_values = data[,1:4],
+  percent_overlap = 30,
   methods = "dbscan",
-  method_params = list(eps = 0.3, minPts = 5),
-  cover_type = 'extension',
+  method_params = list(eps = 1, minPts = 1),
+  # methods = "hierarchical",
+  # method_params = list(num_bins_when_clustering = 10, method = 'ward.D2'),
+  # methods = "kmeans",
+  # method_params = list(max_kmeans_clusters = 2),
+  # methods = "pam",
+  # method_params = list(num_clusters = 2),
+  cover_type = 'stride',
+  # intervals = 4,
+  interval_width = 1,
   num_cores = 12
   )
-MapperPlotter(Mapper, circle_data$circle, circle_data, type = "forceNetwork")
+
+data$PW_group <- ifelse(data$Sepal.Width > 1.5, "wide", "narrow")
+embedded <- CPEmbedding(Mapper, data, columns = list("PW_group", "Species"), a_level = "wide", b_level = "versicolor")
+MapperPlotter(Mapper, label=embedded, data=data, type="forceNetwork", avg=TRUE, use_embedding=TRUE)
 ```
 
 <table>
   <tr>
-    <td><img src="man/figures/Circle.png" alt="Circle" width="500"/><br/>Figure 1</td>
-    <td><img src="man/figures/CircleMapper.png" alt="CircleMapper" width="500"/><br/>Figure 2</td>
+    <td><img src="man/figures/Iris.png" alt="Iris" width="500"/><br/>Figure 1</td>
+    <td><img src="man/figures/IrisMapper.png" alt="IrisMapper" width="500"/><br/>Figure 2</td>
   </tr>
 </table>

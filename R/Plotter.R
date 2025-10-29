@@ -7,6 +7,7 @@
 #' @param data Data.
 #' @param type Visualization type: "forceNetwork" or "ggraph".
 #' @param avg Whether coloring the nodes by average label or majority label.
+#' @param use_embedding Whether to use original data for coloring (TRUE or FALSE).
 #' @return Plot of the Mapper.
 #' @importFrom igraph graph.adjacency V
 #' @importFrom networkD3 forceNetwork
@@ -18,54 +19,63 @@
 #' @importFrom rlang .data
 #' @export
 MapperPlotter <- function(
-    Mapper, label, data, type="forceNetwork", avg=FALSE
+    Mapper, label, data, type="forceNetwork", avg=FALSE,
+    use_embedding=FALSE
 ) {
 
   Graph <- graph.adjacency(Mapper$adjacency, mode="undirected")
   l = length(V(Graph))
   piv <- Mapper$points_in_vertex
-  lab_vec <- label
   nbins <- 5
   vertex.size <- sapply(piv, length)
 
   if (avg) {
-    avg_label <- numeric(l)
-
-    for (i in seq_len(l)) {
-      pts <- piv[[i]] # index
-      avg_label[i] <- mean(lab_vec[pts], na.rm = TRUE)
-    }
-    # quantile, if error fallback to pretty
-    qs <- unique(quantile(avg_label, probs = seq(0, 1, length.out = nbins + 1), na.rm = TRUE))
-    group_bins <- cut(avg_label, breaks = qs, include.lowest = TRUE, dig.lab = 8)
-    Group_col   <- group_bins
-    color_title <- "Avg(label) bin"
-
-  } else {
-    lab_chr <- as.character(lab_vec)
+    legend <- FALSE
+    avg_label <- vapply(piv, \(idx) mean(label[idx], na.rm = TRUE), numeric(1))
+    Group_col <- avg_label
+    color_title <- "Avg(label)"
+  }else {
+    legend <- TRUE
+    lab_chr <- as.character(label)
     majority <- character(l)
 
     for (i in seq_len(l)) {
       pts <- piv[[i]]
-      ux  <- unique(lab_chr[pts])
+      ux <- unique(lab_chr[pts])
       majority[i] <- ux[which.max(tabulate(match(lab_chr[pts], ux)))]
     }
-    Group_col   <- factor(majority)
+    Group_col <- factor(majority)
     color_title <- "Majority label"
+  }
+  if (use_embedding) {
+    Group_col <- label
+    # if (!avg) legend <- FALSE
   }
 
   if (type == "forceNetwork") {
 
     Graph <- igraph::graph.adjacency(Mapper$adjacency, mode = "undirected")
     MapperNodes <- mapperVertices(Mapper, 1:nrow(data))
-    MapperNodes$Group    <- Group_col
-    MapperNodes$Nodesize <- vertex.size
-    if (avg) MapperNodes$AvgLabel <- avg_label
-    if (!avg) MapperNodes$majority <- Group_col
+    MapperNodes$Group <- Group_col
+    MapperNodes$Nodesize <- vertex.size * 5
+    if (avg) MapperNodes$AvgLabel <- Group_col
+    if (!avg && !use_embedding) MapperNodes$majority <- Group_col
 
     MapperLinks <- mapperEdges(Mapper)
 
-    forceNetwork(
+    if (is.numeric(MapperNodes$Group)) {
+      rng <- range(MapperNodes$Group, na.rm = TRUE)
+      colourScale <- htmlwidgets::JS(sprintf(
+        "d3.scaleSequential(d3.interpolateViridis).domain([%f, %f])",
+        rng[1], rng[2]
+      ))
+      is_continuous <- TRUE
+    } else {
+      colourScale <- htmlwidgets::JS("d3.scaleOrdinal(d3.schemeCategory10)")
+      is_continuous <- FALSE
+    }
+
+    p <- forceNetwork(
       Nodes = MapperNodes,
       Links = MapperLinks,
       Source = "Linksource",
@@ -73,15 +83,54 @@ MapperPlotter <- function(
       Value  = "Linkvalue",
       NodeID = "Nodename",
       Nodesize = "Nodesize",
-      Group   = "Group",
+      Group = "Group",
       opacity = 1,
       zoom = TRUE,
       radiusCalculation = JS("Math.sqrt(d.nodesize)"),
-      colourScale = JS("d3.scaleOrdinal(d3.schemeCategory10);"),
-      linkDistance = 30,
-      charge = -10,
-      legend = TRUE
+      colourScale = colourScale,
+      linkDistance = JS("function(d){ return (d.value ? 40 + 8*Math.sqrt(d.value) : 60); }"),
+      charge = JS("function(d){ return - (60 + 2*Math.sqrt(d.nodesize)); }"),
+      legend = legend
     )
+    if (avg && is_continuous) {
+      pal <- viridisLite::viridis(100)
+      pal_json <- jsonlite::toJSON(pal, auto_unbox = TRUE)
+      p <- htmlwidgets::onRender(p, htmlwidgets::JS(sprintf(
+        "function(el, x) {
+           var colors = %s;
+           var minv = %f, maxv = %f;
+           var root = d3.select(el);
+           var container = root.append('div')
+             .attr('class','rd3-colorbar')
+             .style('position','absolute')
+             .style('right','10px')
+             .style('top','10px')
+             .style('padding','6px')
+             .style('background','rgba(255,255,255,0.95)')
+             .style('border','1px solid #ddd')
+             .style('border-radius','3px')
+             .style('font-family','sans-serif')
+             .style('font-size','11px')
+             .style('pointer-events','none');
+
+           container.append('div').text('%s').style('margin-bottom','4px').style('font-weight','500');
+
+           // gradient bar
+           var grad = container.append('div')
+             .style('width','140px')
+             .style('height','12px')
+             .style('border','1px solid #ccc')
+             .style('background', 'linear-gradient(to right,' + colors.join(',') + ')');
+
+           // min / max labels
+           var labels = container.append('div').style('display','flex').style('justify-content','space-between').style('margin-top','4px');
+           labels.append('div').text(minv);
+           labels.append('div').text(maxv);
+         }",
+        pal_json, rng[1], rng[2], color_title
+      )))
+    }
+
   }
   else if (type == "ggraph") {
 
@@ -94,6 +143,10 @@ MapperPlotter <- function(
       stringsAsFactors = FALSE
     )
 
+    if (use_embedding) {
+      node_df$Group <- label
+    }
+
     if (avg) node_df$AvgLabel <- avg_label
 
     adj <- Mapper$adjacency
@@ -103,11 +156,14 @@ MapperPlotter <- function(
 
     graph <- tbl_graph(nodes = node_df, edges = edges, directed = FALSE)
 
-    ggraph(graph, layout = "fr") +  # Fruchterman-Reingold layout
+    set.seed(123)
+    p <- ggraph(graph, layout = "fr") +  # Fruchterman-Reingold layout
       geom_edge_link(color = "gray") +
-      geom_node_point(aes(size = size, color = rlang::.data$Group)) +
-      geom_node_text(aes(label = id), repel = TRUE, size = 3) +
+      geom_node_point(aes(size = size, color = .data$Group)) +
+      # geom_node_text(aes(label = id), repel = TRUE, size = 3) +
       theme_void() +
-      labs(color = "Level", size = "Points in Cluster")
+      labs(color = 'Group', size = "Points in Cluster")
   }
+
+  return(p)
 }
