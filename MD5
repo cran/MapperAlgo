@@ -1,4 +1,4 @@
-4177c16c0790c6a047e26446a8abcf2e *DESCRIPTION
+96e26f4cae1a55c74c86b421973a35a0 *DESCRIPTION
 0bafaa48ad1696fecf43993abe9f6c2b *LICENSE
 6f2dbdc16d8889fef86b5c7c37504a1d *NAMESPACE
 ff04fe0eee8ce92b12d16ae28a320c8f *R/CPEmbedding.R
@@ -7,7 +7,7 @@ ff04fe0eee8ce92b12d16ae28a320c8f *R/CPEmbedding.R
 574d08dad7a426d47199840d81687f98 *R/Cover.R
 a5789e9a603307b1dabbf94505089b5e *R/EdgeVertices.R
 83f7107e71516d7f23a03da2ad0ed489 *R/GridSearch.R
-001740be7be43b7b4f0b7260582cb888 *R/MapperAlgo.R
+070164ab8b4fbbb1a2d64d17d6f1a601 *R/MapperAlgo.R
 c2f0c1fe3f35b212ed4ac7c770fbc970 *R/MapperCorrelation.R
 a450488b76d89f05dc1cce4d52a37010 *R/Plotter.R
 a2a763113ac3a46381f34536d2f7da7e *R/SimplicialComplex.R
