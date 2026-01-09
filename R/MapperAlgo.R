@@ -4,6 +4,7 @@
 #' It divides data into intervals, applies clustering within each interval, and constructs a
 #' simplicial complex representing the structure of the data.
 #'
+#' @param original_data Original dataframe, not the filter values.
 #' @param filter_values A data frame or matrix of the data to be analyzed.
 #' @param intervals An integer specifying the number of intervals.
 #' @param interval_width The width of each interval.
@@ -27,6 +28,7 @@
 #' @import foreach
 #' @export
 MapperAlgo <- function(
+    original_data,
     filter_values, # dist_df[,1:col]
     percent_overlap, # 50
     methods,
@@ -38,6 +40,7 @@ MapperAlgo <- function(
 ) {
 
   filter_values <- data.frame(filter_values)
+  original_data <- as.data.frame(original_data)
 
   num_points <- dim(filter_values)[1] # row
 
@@ -101,8 +104,9 @@ MapperAlgo <- function(
                        )
 
                        clustering_result <- perform_clustering(
-                         points_in_level_set,
+                         original_data,
                          filter_values,
+                         points_in_level_set,
                          methods,
                          method_params
                        )

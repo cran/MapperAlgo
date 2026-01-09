@@ -1,7 +1,7 @@
 Package: MapperAlgo
 Title: Topological Data Analysis: Mapper Algorithm
-Version: 1.0.7
-Date: 2025-11-16
+Version: 1.0.8
+Date: 2026-01-09
 Authors@R: c(
   person("ChiChien", "Wang", email = "kennywang2003@gmail.com", role = c("aut", "cre", "trl")),
   person("Paul", "Pearson", email = "pearsonp@hope.edu", role = "ctb"),
@@ -9,10 +9,9 @@ Authors@R: c(
   person("Gurjeet", "Singh", role = "ctb"))
 Maintainer: ChiChien Wang <kennywang2003@gmail.com>
 Description: The Mapper algorithm from Topological Data Analysis, the steps are as follows 1. Define a filter (lens) function on the data. 2. Perform clustering within each level set. 3. Generate a complex from the clustering results.
-Depends: R (>= 4.1.0)
-Imports: parallel, doParallel, foreach, networkD3, igraph, ggraph,
-        tidygraph, ggplot2, htmlwidgets, rlang, webshot2, jsonlite,
-        viridisLite
+Depends: R (>= 3.1.2)
+Imports: parallel, doParallel, foreach, networkD3, igraph, ggplot2,
+        htmlwidgets, rlang, webshot2, jsonlite, viridisLite
 Suggests: fastcluster, cluster, dbscan, testthat (>= 3.0.0)
 License: MIT + file LICENSE
 URL: https://github.com/TDA-R/MapperAlgo
@@ -21,10 +20,10 @@ Encoding: UTF-8
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-11-16 19:41:48 UTC; wangqiqian
+Packaged: 2026-01-09 19:26:06 UTC; wangqiqian
 Author: ChiChien Wang [aut, cre, trl],
   Paul Pearson [ctb],
   Daniel Muellner [ctb],
   Gurjeet Singh [ctb]
 Repository: CRAN
-Date/Publication: 2025-11-16 20:00:02 UTC
+Date/Publication: 2026-01-09 19:40:06 UTC
