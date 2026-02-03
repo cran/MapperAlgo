@@ -100,11 +100,6 @@ data$PW_group <- ifelse(data$Sepal.Width > 1.5, "wide", "narrow")
 embedded <- CPEmbedding(Mapper, data, columns = list("PW_group", "Species"), a_level = "wide", b_level = "versicolor")
 MapperCorrelation(Mapper, original_data = data, labels = list(data$Sepal.Length, embedded), use_embedding = list(FALSE, TRUE))
 
-
-MapperPlotter(Mapper, label=data$Species, data=data, type="forceNetwork", avg=FALSE, use_embedding=FALSE)
-MapperPlotter(Mapper, label=embedded, data=data, type="forceNetwork", avg=TRUE, use_embedding=TRUE)
-# MapperPlotter(Mapper, label=data$Species, data=data, type="forceNetwork", avg=FALSE)
-
 ## Save mapper
 library(jsonlite)
 
