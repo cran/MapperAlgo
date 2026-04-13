@@ -1,7 +1,7 @@
 Package: MapperAlgo
 Title: Topological Data Analysis: Mapper Algorithm
-Version: 1.0.9
-Date: 2026-02-03
+Version: 1.1.0
+Date: 2026-04-13
 Authors@R: c(
   person("ChiChien", "Wang", email = "kennywang2003@gmail.com", role = c("aut", "cre", "trl")),
   person("Paul", "Pearson", email = "pearsonp@hope.edu", role = "ctb"),
@@ -12,7 +12,7 @@ Description: The Mapper algorithm from Topological Data Analysis, the steps are 
 Depends: R (>= 3.1.2)
 Imports: inaparc, ppclust, parallel, doParallel, foreach, networkD3,
         igraph, ggplot2, htmlwidgets, rlang, webshot2, jsonlite,
-        viridisLite
+        viridisLite, mclust, nortest
 Suggests: fastcluster, cluster, dbscan, testthat (>= 3.0.0)
 License: MIT + file LICENSE
 URL: https://github.com/TDA-R/MapperAlgo
@@ -21,10 +21,10 @@ Encoding: UTF-8
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2026-02-03 00:15:36 UTC; wangqiqian
+Packaged: 2026-04-13 14:04:20 UTC; wangqiqian
 Author: ChiChien Wang [aut, cre, trl],
   Paul Pearson [ctb],
   Daniel Muellner [ctb],
   Gurjeet Singh [ctb]
 Repository: CRAN
-Date/Publication: 2026-02-03 00:30:02 UTC
+Date/Publication: 2026-04-13 14:20:23 UTC

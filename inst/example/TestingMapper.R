@@ -41,7 +41,7 @@ time_taken <- system.time({
     # intervals = 4,
     interval_width = 1,
     num_cores = 12
-    )
+  )
 })
 time_taken
 
@@ -108,7 +108,7 @@ export_data <- list(
   num_vertices = Mapper$num_vertices,
   level_of_vertex = Mapper$level_of_vertex,
   points_in_vertex = Mapper$points_in_vertex,
-  original_data = as.matrix(mnist$label),
+  original_data = data
 )
 
-write(toJSON(export_data, auto_unbox = TRUE), "~/desktop/mnist.json")
+write(toJSON(export_data, auto_unbox = TRUE), "~/desktop/data.json")

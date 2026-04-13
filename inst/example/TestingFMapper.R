@@ -27,7 +27,7 @@ library(fclust)
 
 FMapper <- FuzzyMapperAlgo(
   original_data = data[,1:4],
-  filter_values =  data[,1:2],
+  filter_values = data[,1:2],
   cluster_n = 8,
   fcm_threshold = 0.2,
   # methods = "hierarchical",
@@ -50,3 +50,17 @@ source('R/CPEmbedding.R')
 data$PW_group <- ifelse(data$Sepal.Width > 1.5, "wide", "narrow")
 embedded <- CPEmbedding(FMapper, data, columns = list("PW_group", "Species"), a_level = "wide", b_level = "versicolor")
 MapperCorrelation(FMapper, original_data = data, labels = list(data$Sepal.Length, embedded), use_embedding = list(FALSE, TRUE))
+
+
+library(jsonlite)
+
+export_data <- list(
+  adjacency = FMapper$adjacency,
+  num_vertices = FMapper$num_vertices,
+  level_of_vertex = FMapper$level_of_vertex,
+  points_in_vertex = FMapper$points_in_vertex,
+  input_params = FMapper$input_params,
+  original_data = data
+)
+
+write(toJSON(export_data, auto_unbox = TRUE), "~/desktop/data.json")
