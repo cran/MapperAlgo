@@ -1,7 +1,7 @@
 Package: MapperAlgo
 Title: Topological Data Analysis: Mapper Algorithm
-Version: 1.1.0
-Date: 2026-04-13
+Version: 1.2.0
+Date: 2026-08-30
 Authors@R: c(
   person("ChiChien", "Wang", email = "kennywang2003@gmail.com", role = c("aut", "cre", "trl")),
   person("Paul", "Pearson", email = "pearsonp@hope.edu", role = "ctb"),
@@ -11,9 +11,10 @@ Maintainer: ChiChien Wang <kennywang2003@gmail.com>
 Description: The Mapper algorithm from Topological Data Analysis, the steps are as follows 1. Define a filter (lens) function on the data. 2. Perform clustering within each level set. 3. Generate a complex from the clustering results.
 Depends: R (>= 3.1.2)
 Imports: inaparc, ppclust, parallel, doParallel, foreach, networkD3,
-        igraph, ggplot2, htmlwidgets, rlang, webshot2, jsonlite,
-        viridisLite, mclust, nortest
-Suggests: fastcluster, cluster, dbscan, testthat (>= 3.0.0)
+        plotly, igraph, ggplot2, htmlwidgets, webshot2, jsonlite,
+        rlang, viridisLite, mclust, nortest
+Suggests: fastcluster, cluster, dbscan, mlr3, mlr3cluster, testthat (>=
+        3.0.0)
 License: MIT + file LICENSE
 URL: https://github.com/TDA-R/MapperAlgo
 BugReports: https://github.com/TDA-R/MapperAlgo/issues
@@ -21,10 +22,10 @@ Encoding: UTF-8
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2026-04-13 14:04:20 UTC; wangqiqian
+Packaged: 2026-08-30 15:01:31 UTC; wangqiqian
 Author: ChiChien Wang [aut, cre, trl],
   Paul Pearson [ctb],
   Daniel Muellner [ctb],
   Gurjeet Singh [ctb]
 Repository: CRAN
-Date/Publication: 2026-04-13 14:20:23 UTC
+Date/Publication: 2026-08-31 14:40:02 UTC
